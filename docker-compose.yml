@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  backend:
+    build:
+      context: ./
+    volumes:
+      - ./:/meetup/
+    ports:
+      - 8090:8090
+    command: python meetup/manage.py runserver 0:8090

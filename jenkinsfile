@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    options {
+        ansiColor('xterm')
+        timestamps()
+        timeout(time: 1, unit: 'HOURS')
+    }
+    environment {
+        ARTIFACTOR = "${env.BUILD_NUMBER}.zip"
+    }
+
+    stages {
+        stage("Repository") {
+            steps {
+              checkout scm
+            }
+        }
+        stage("Build") {
+            steps {
+              echo "build"
+            }
+        }
+        stage("Deploy") {
+           steps {
+            script {
+                sh "./run.sh"
+              }
+           }
+         }
+    }
+    post {
+      always {
+        archiveArtifacts artifacts: "${ARTIFACTOR}", onlyIfSuccessful: true
+        sh "rm -f ${ARTIFACTOR}"
+        echo "Job has finished"
+      }
+    }
+}
