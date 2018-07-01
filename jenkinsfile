@@ -33,13 +33,6 @@ pipeline {
            }
         }
 
-        stage("Deploy") {
-           steps {
-            script {
-                sh "./run.sh"
-            }
-           }
-         }
     }
     post {
       always {
