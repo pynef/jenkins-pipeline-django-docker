@@ -19,10 +19,9 @@ pipeline {
             steps {
               echo "build"
               sh "zip -r ${ARTIFACTOR} ./"
-              sh "docker build -t mymeetup:${env.BUILD_NUMBER} ."
-              sh "docker tag mymeetup:${env.BUILD_NUMBER} mymeetup:latest"
               sh "echo \"BUILD_NUMBER=${env.BUILD_NUMBER}\" > .env"
-
+              sh "docker-compose build"
+              sh "docker tag themeetup:${env.BUILD_NUMBER} themeetup:latest"
             }
         }
 
@@ -36,12 +35,10 @@ pipeline {
         }
 
         stage("Deploy") {
-           steps {
-            script {
-                sh "./run.sh"
-            }
-           }
-         }
+          steps {
+              sh "docker stack deploy --compose-file docker-stack.yml meetup"
+          }
+        }
     }
     post {
       always {

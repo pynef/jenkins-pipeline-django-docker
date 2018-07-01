@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  backend:
+    image: "themeetup:latest"
+    ports:
+      - 8090:8090
+    command: python meetup/manage.py runserver 0:8090
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
