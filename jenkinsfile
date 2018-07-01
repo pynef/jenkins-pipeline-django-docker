@@ -21,8 +21,11 @@ pipeline {
               sh "zip -r ${ARTIFACTOR} ./"
               sh "docker build -t mymeetup:${env.BUILD_NUMBER} ."
               sh "docker tag mymeetup:${env.BUILD_NUMBER} mymeetup:latest"
+              sh "echo \"BUILD_NUMBER=${env.BUILD_NUMBER}\" > .env"
+
             }
         }
+
         stage("Test") {
            steps {
              parallel (
@@ -32,6 +35,13 @@ pipeline {
            }
         }
 
+        stage("Deploy") {
+           steps {
+            script {
+                sh "./run.sh"
+            }
+           }
+         }
     }
     post {
       always {
