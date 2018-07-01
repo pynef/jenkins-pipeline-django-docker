@@ -21,6 +21,15 @@ pipeline {
               sh "zip -r ${ARTIFACTOR} ./meetup"
             }
         }
+        stage("Test") {
+           steps {
+             parallel (
+               syntax: { sh "echo syntax" },
+               grep: { sh "echo 'grep'" }
+             )
+           }
+        }
+
         stage("Deploy") {
            steps {
             script {
