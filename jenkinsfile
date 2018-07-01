@@ -18,7 +18,7 @@ pipeline {
         stage("Build") {
             steps {
               echo "build"
-              sh "zip -r ${ARTIFACTOR} ./meetup"
+              sh "zip -r ${ARTIFACTOR} ./"
               sh "docker build -t mymeetup:${env.BUILD_NUMBER}"
               sh "docker tag mymeetup:${env.BUILD_NUMBER} "
               sh "docker tag myimage:${env.BUILD_NUMBER} mymeetup:latest"
