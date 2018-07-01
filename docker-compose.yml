@@ -8,4 +8,4 @@ services:
       - ./meetup:/meetup/
     ports:
       - 8090:8090
-    command: python meetup/manage.py runserver 0:8090
+    command: python manage.py runserver 0:8090
